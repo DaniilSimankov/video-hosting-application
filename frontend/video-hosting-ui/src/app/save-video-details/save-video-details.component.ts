@@ -26,6 +26,7 @@ export class SaveVideoDetailsComponent implements OnInit {
     selectedFile!: File;
     videoId = '';
     fileSelected = false;
+    videoUrl!: string;
 
     selectedFileName = '';
 
@@ -35,6 +36,9 @@ export class SaveVideoDetailsComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute, private videoService: VideoService,
                 private matSnackBar: MatSnackBar) {
         this.videoId = this.activatedRoute.snapshot.params['videoId'];
+        this.videoService.getVideo(this.videoId).subscribe(data => {
+            this.videoUrl = data.videoUrl;
+        });
 
         this.saveVideoDetailsForm = new FormGroup({
             title: this.title,

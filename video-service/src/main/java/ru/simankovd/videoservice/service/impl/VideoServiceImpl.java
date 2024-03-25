@@ -75,6 +75,11 @@ public class VideoServiceImpl implements VideoService {
         return thumbnailUrl;
     }
 
+    @Override
+    public VideoDto getVideoDetails(String videoId) {
+        return VideoDto.from(getVideoById(videoId));
+    }
+
     /**
      * @param videoId - identification of video
      * @return Video

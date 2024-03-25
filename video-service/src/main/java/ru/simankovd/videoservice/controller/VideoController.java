@@ -33,7 +33,7 @@ public class VideoController {
     public String uploadThumbnail(@RequestParam("file") MultipartFile file, @RequestParam("videoId") String videoId) {
 
         log.info("Start upload thumbnail");
-        String thumbnailUrl = videoService.uploadThumbnail(file,videoId);
+        String thumbnailUrl = videoService.uploadThumbnail(file, videoId);
         log.info("End upload thumbnail");
 
         return thumbnailUrl;
@@ -50,4 +50,13 @@ public class VideoController {
         return dto;
     }
 
+    @GetMapping("/{videoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public VideoDto getVideoDetails(@PathVariable String videoId) {
+        log.info("Start getting video details with Id - {}", videoId);
+        VideoDto videoDetails = videoService.getVideoDetails(videoId);
+        log.info("End getting video details with Id - {}", videoId);
+
+        return videoDetails;
+    }
 }

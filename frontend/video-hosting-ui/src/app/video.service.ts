@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {FileSystemFileEntry} from 'ngx-file-drop';
 import {Observable} from "rxjs";
 import {UploadVideoResponse} from "./upload-video/UploadVideoResponse";
+import {VideoDto} from "./video-dto";
 
 
 @Injectable({
@@ -31,4 +32,9 @@ export class VideoService {
             responseType: 'text'
         }); // todo change no 8080
     }
+
+    getVideo(videoId: string): Observable<VideoDto> {
+        return this.httpClient.get<VideoDto>("http://localhost:8081/api/video/" + videoId);
+    }
+
 }

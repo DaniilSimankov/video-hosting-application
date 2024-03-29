@@ -48,7 +48,7 @@ public class VideoServiceImpl implements VideoService {
         savedVideo.setDescription(videoDto.getDescription());
         savedVideo.setTags(videoDto.getTags());
         savedVideo.setVideoStatus(videoDto.getVideoStatus());
-        savedVideo.setThumbnailUrl(videoDto.getThumbnailUrl());
+//        savedVideo.setThumbnailUrl(videoDto.getThumbnailUrl());
 
         // Save video to the DB
         videoRepository.save(savedVideo);
@@ -84,7 +84,7 @@ public class VideoServiceImpl implements VideoService {
      * @param videoId - identification of video
      * @return Video
      */
-    Video getVideoById(String videoId){
+    Video getVideoById(String videoId) {
         return videoRepository.findById(videoId)
                 .orElseThrow(() -> new IllegalArgumentException("Can not find video by Id - " + videoId));
     }

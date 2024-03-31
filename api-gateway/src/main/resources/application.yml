@@ -1,16 +1,23 @@
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTIONS
+#            allowCredentials: true
       routes:
-        - id: product-service
-          uri: lb://product-service
+        - id: video-service
+          uri: lb://video-service
           predicates:
-            - Path=/api/product
-
-        - id: order-service
-          uri: lb://order-service
-          predicates:
-            - Path=/api/order
+            - Path=/api/video/**
 
         - id: discovery-service
           uri: http://localhost:8761

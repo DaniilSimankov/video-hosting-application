@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FileSystemFileEntry} from 'ngx-file-drop';
 import {Observable} from "rxjs";
 import {UploadVideoResponse} from "./upload-video/UploadVideoResponse";
@@ -19,7 +19,7 @@ export class VideoService {
         formData.append('file', file, file.name);
 
         // HTTP Post call to upload the video
-        return this.httpClient.post<UploadVideoResponse>("http://localhost:8081/api/video", formData); // todo change no 8080
+        return this.httpClient.post<UploadVideoResponse>("http://localhost:8080/api/video", formData); // todo change no 8080
     }
 
     uploadThumbnail(file: File, videoId: string): Observable<string> {
@@ -28,16 +28,20 @@ export class VideoService {
         formData.append('videoId', videoId);
 
         // HTTP Post call to upload the thumbnail
-        return this.httpClient.post("http://localhost:8081/api/video/thumbnail", formData, {
+        return this.httpClient.post("http://localhost:8080/api/video/thumbnail", formData, {
             responseType: 'text'
         }); // todo change no 8080
     }
 
     getVideo(videoId: string): Observable<VideoDto> {
-        return this.httpClient.get<VideoDto>("http://localhost:8081/api/video/" + videoId);
+        return this.httpClient.get<VideoDto>("http://localhost:8080/api/video/" + videoId);
     }
 
     saveVideo(videoMetaData: VideoDto): Observable<VideoDto> {
-        return this.httpClient.put<VideoDto>("http://localhost:8081/api/video", videoMetaData);
+        // const headers = new HttpHeaders()
+        //     .set('Content-Type', 'application/json')
+        //     .set('Accept', 'application/json')
+        // ;
+        return this.httpClient.post<VideoDto>("http://localhost:8080/api/video/edit", videoMetaData);
     }
 }

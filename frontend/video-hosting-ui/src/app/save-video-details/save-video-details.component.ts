@@ -84,7 +84,7 @@ export class SaveVideoDetailsComponent implements OnInit {
     onUpload() {
         this.videoService.uploadThumbnail(this.selectedFile, this.videoId)
             .subscribe(data => {
-                console.log(data);
+                console.log("Successfully upload Thumbnail",data);
                 // show an upload success notification
                 // this.thumbnailUrl = data;
                 this.matSnackBar.open("Thumbnail upload Successful", "OK");
@@ -105,6 +105,8 @@ export class SaveVideoDetailsComponent implements OnInit {
             "thumbnailUrl": this.thumbnailUrl,
         }
         this.videoService.saveVideo(videoMetaData).subscribe(data => {
+            console.log("Successfully upload Metadata",data);
+
             this.matSnackBar.open("Video Metadata updated successfully", "OK ");
         });
     }

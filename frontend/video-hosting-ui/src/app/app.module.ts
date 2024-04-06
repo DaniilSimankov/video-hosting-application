@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UploadVideoComponent} from './upload-video/upload-video.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {NgxFileDropModule} from "ngx-file-drop";
 import {MatButtonModule} from "@angular/material/button";
 import {HeaderComponent} from './header/header.component';
@@ -23,9 +23,10 @@ import {VgCoreModule} from "@videogular/ngx-videogular/core";
 import {VgControlsModule} from "@videogular/ngx-videogular/controls";
 import {VgOverlayPlayModule} from "@videogular/ngx-videogular/overlay-play";
 import {VgBufferingModule} from "@videogular/ngx-videogular/buffering";
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
-import { VideoPlayerComponent } from './video-player/video-player.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {VideoPlayerComponent} from './video-player/video-player.component';
 import { AuthConfigModule } from './auth/auth-config.module';
+import {AuthInterceptor} from "angular-auth-oidc-client";
 
 @NgModule({
     declarations: [
@@ -59,7 +60,9 @@ import { AuthConfigModule } from './auth/auth-config.module';
         MatSnackBarModule,
         AuthConfigModule,
     ],
-    providers: [],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

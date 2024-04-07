@@ -27,6 +27,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {VideoPlayerComponent} from './video-player/video-player.component';
 import { AuthConfigModule } from './auth/auth-config.module';
 import {AuthInterceptor} from "angular-auth-oidc-client";
+import { VideoDetailComponent } from './video-detail/video-detail.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import {AuthInterceptor} from "angular-auth-oidc-client";
         UploadVideoComponent,
         HeaderComponent,
         SaveVideoDetailsComponent,
-        VideoPlayerComponent
+        VideoPlayerComponent,
+        VideoDetailComponent
     ],
     imports: [
         BrowserModule,

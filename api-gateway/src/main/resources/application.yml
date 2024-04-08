@@ -18,6 +18,11 @@ spring:
           uri: lb://video-service
           predicates:
             - Path=/api/video/**
+            -
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
 
         - id: discovery-service
           uri: http://localhost:8761

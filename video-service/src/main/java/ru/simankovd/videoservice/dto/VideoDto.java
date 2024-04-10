@@ -26,6 +26,8 @@ public class VideoDto {
     private String videoUrl;
     private VideoStatus videoStatus;
     private String thumbnailUrl;
+    private Integer likeCount;
+    private Integer dislikeCount;
 
     public static VideoDto from(Video video){
         return VideoDto.builder()
@@ -36,6 +38,8 @@ public class VideoDto {
                 .videoUrl(video.getVideoUrl())
                 .videoStatus(video.getVideoStatus())
                 .thumbnailUrl(video.getThumbnailUrl())
+                .likeCount(video.getLikes().get())
+                .dislikeCount(video.getDislikes().get())
                 .build();
     }
 }

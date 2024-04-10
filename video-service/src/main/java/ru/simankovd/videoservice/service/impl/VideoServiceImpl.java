@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.simankovd.videoservice.client.UserClient;
 import ru.simankovd.videoservice.dto.UploadVideoResponse;
 import ru.simankovd.videoservice.dto.VideoDto;
 import ru.simankovd.videoservice.model.Video;
@@ -18,6 +19,7 @@ public class VideoServiceImpl implements VideoService {
 
     private final FileService s3Service;
     private final VideoRepository videoRepository;
+    private final UserClient userClient;
 
     @Override
     public UploadVideoResponse uploadVideo(MultipartFile multipartFile) {
@@ -88,4 +90,40 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findById(videoId)
                 .orElseThrow(() -> new IllegalArgumentException("Can not find video by Id - " + videoId));
     }
+
+
+
+
+    @Override
+    public VideoDto likeVideo(String videoId) {
+
+        // Get video by ID
+        Video videoById = getVideoById(videoId);
+
+        // Increment Like Count
+        // If user already liked the video,
+        // then decrement like video.
+
+        // If user already disliked the video,
+        // then increment like count and decrement dislike count
+
+        if(userClient.ifLikedVideo(videoId)){
+            videoById.decrementLikes();
+            userClient.removeFromLikedVideos(videoId);
+        }else if(userClient.ifDislikedVideo(videoId)){
+            videoById.decrementDislikes();
+            userClient.removeFromDislikedVideos(videoId);
+
+            videoById.incrementLikes();
+            userClient.addToLikeVideos(videoId);
+        }else {
+            videoById.incrementLikes();
+            userClient.addToLikeVideos(videoId);
+        }
+
+
+
+        return VideoDto.from(videoById);
+    }
+
 }

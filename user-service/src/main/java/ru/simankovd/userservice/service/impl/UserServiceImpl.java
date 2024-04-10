@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import ru.simankovd.userservice.dto.UserDto;
 import ru.simankovd.userservice.dto.UserInfoDto;
 import ru.simankovd.userservice.model.User;
 import ru.simankovd.userservice.repository.UserRepository;
@@ -58,6 +61,8 @@ public class UserServiceImpl implements UserService {
                     .sub(userInfoDto.getSub())
                     .build();
 
+            // todo add kafka to notification service
+
             userRepository.save(user);
 
         } catch (IOException e) {
@@ -69,4 +74,56 @@ public class UserServiceImpl implements UserService {
         // Fetch user details and save them to the database
 
     }
+
+    @Override
+    public User getCurrentUser() {
+        String sub = ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaim("sub");
+
+        User user = userRepository.findBySub(sub)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find user with sub - " + sub));
+
+        return user;
+    }
+
+    @Override
+    public UserDto getCurrentUserDto() {
+        String sub = ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaim("sub");
+
+        User user = userRepository.findBySub(sub)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find user with sub - " + sub));
+
+        return UserDto.from(user);
+    }
+
+    @Override
+    public void addToLikeVideos(String videoId) {
+        User currentUser = getCurrentUser();
+        currentUser.addToLikeVideos(videoId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
+    public boolean ifLikedVideo(String videoId) {
+        return getCurrentUser().getLikedVideos().stream().anyMatch(likedVideo -> likedVideo.equals(videoId));
+    }
+
+    @Override
+    public boolean ifDislikedVideo(String videoId) {
+        return getCurrentUser().getDislikedVideos().stream().anyMatch(dislikedVideo -> dislikedVideo.equals(videoId));
+    }
+
+    @Override
+    public void removeFromLikedVideos(String videoId){
+        User currentUser = getCurrentUser();
+        currentUser.removeFromLikedVideos(videoId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
+    public void removeFromDislikedVideos(String videoId) {
+        User currentUser = getCurrentUser();
+        currentUser.removeFromDislikedVideos(videoId);
+        userRepository.save(currentUser);
+    }
+
 }

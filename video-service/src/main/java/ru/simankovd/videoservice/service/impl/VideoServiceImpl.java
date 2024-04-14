@@ -2,6 +2,8 @@ package ru.simankovd.videoservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.simankovd.videoservice.client.UserClient;
@@ -92,8 +94,6 @@ public class VideoServiceImpl implements VideoService {
     }
 
 
-
-
     @Override
     public VideoDto likeVideo(String videoId) {
 
@@ -107,23 +107,39 @@ public class VideoServiceImpl implements VideoService {
         // If user already disliked the video,
         // then increment like count and decrement dislike count
 
-        if(userClient.ifLikedVideo(videoId)){
+        String jwt = getJwt();
+
+        if (userClient.ifLikedVideo(videoId, getBearerToken(jwt))) {
+            log.info("Video with id: " + videoId + " was liked");
+
             videoById.decrementLikes();
-            userClient.removeFromLikedVideos(videoId);
-        }else if(userClient.ifDislikedVideo(videoId)){
+            userClient.removeFromLikedVideos(videoId, getBearerToken(jwt));
+        } else if (userClient.ifDislikedVideo(videoId, getBearerToken(jwt))) {
+            log.info("Video with id: " + videoId + " was disliked");
+
             videoById.decrementDislikes();
-            userClient.removeFromDislikedVideos(videoId);
+            userClient.removeFromDislikedVideos(videoId, getBearerToken(jwt));
 
             videoById.incrementLikes();
-            userClient.addToLikeVideos(videoId);
-        }else {
+            userClient.addToLikeVideos(videoId, getBearerToken(jwt));
+        } else {
+            log.info("Video with id: " + videoId + " wasnt liked/disliked");
+
             videoById.incrementLikes();
-            userClient.addToLikeVideos(videoId);
+            userClient.addToLikeVideos(videoId, getBearerToken(jwt));
         }
 
-
+        videoRepository.save(videoById);
 
         return VideoDto.from(videoById);
+    }
+
+    private static String getBearerToken(String jwt) {
+        return "Bearer " + jwt;
+    }
+
+    private String getJwt() {
+        return ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getTokenValue();
     }
 
 }

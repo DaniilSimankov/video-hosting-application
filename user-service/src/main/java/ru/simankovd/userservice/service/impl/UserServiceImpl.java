@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,8 @@ public class UserServiceImpl implements UserService {
                     .sub(userInfoDto.getSub())
                     .build();
 
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
             // todo add kafka to notification service
 
             userRepository.save(user);
@@ -77,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getCurrentUser() {
-        String sub = ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaim("sub");
+        String sub = getSub();
 
         User user = userRepository.findBySub(sub)
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find user with sub - " + sub));
@@ -87,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getCurrentUserDto() {
-        String sub = ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaim("sub");
+        String sub = getSub();
 
         User user = userRepository.findBySub(sub)
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find user with sub - " + sub));
@@ -126,4 +129,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(currentUser);
     }
 
+
+    private static String getSub() {
+        return ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaim("sub");
+    }
 }

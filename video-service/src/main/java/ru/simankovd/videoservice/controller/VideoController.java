@@ -79,7 +79,9 @@ public class VideoController {
     @ResponseStatus(HttpStatus.OK)
     public VideoDto likeVideo(@PathVariable String videoId){
 
+        log.info("Start like video with Id - {}", videoId);
         VideoDto response = videoService.likeVideo(videoId);
+        log.info("End like video with Id - {}", videoId);
 
         return response;
 

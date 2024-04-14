@@ -33,40 +33,46 @@ public class UserController {
         return "User registration succesfully";
     }
 
-    @GetMapping("/api/user")
+    @GetMapping
     public UserDto getCurrentUser(){
 
+        log.info("Get current user");
         return userService.getCurrentUserDto();
     }
 
-    @GetMapping("/api/user/like/{$videoId}")
+    @GetMapping("/like/{videoId}")
     void addToLikeVideos(@PathVariable String videoId){
 
+        log.info("Add to like video with id: " + videoId);
         userService.addToLikeVideos(videoId);
     }
 
-    @GetMapping("/api/user/video/check/like/{$videoId}")
-    boolean ifLikedVideo(String videoId){
+    @GetMapping("/video/check/like/{videoId}")
+    boolean ifLikedVideo(@PathVariable String videoId){
 
+        log.info("Check id liked video with id: " + videoId);
         return userService.ifLikedVideo(videoId);
     }
 
-    @GetMapping("/api/user/video/check/dislike/{$videoId}")
-    boolean ifDislikedVideo(String videoId){
+    @GetMapping("/video/check/dislike/{videoId}")
+    boolean ifDislikedVideo(@PathVariable String videoId){
 
+        log.info("Check id disliked video with id: " + videoId);
         return userService.ifDislikedVideo(videoId);
     }
 
-    @GetMapping("/api/user/video/remove/like/{$videoId}")
-    void removeFromLikedVideos(String videoId){
+    @GetMapping("/video/remove/like/{videoId}")
+    void removeFromLikedVideos(@PathVariable String videoId){
 
+        log.info("Remove from liked video with id: " + videoId);
         userService.removeFromLikedVideos(videoId);
 
     }
 
-    @GetMapping("/api/user/video/remove/dislike/{$videoId}")
-    void removeFromDislikedVideos(String videoId){
+    @GetMapping("/video/remove/dislike/{videoId}")
+    void removeFromDislikedVideos(@PathVariable String videoId){
 
+        log.info("Remove from disliked video with id: " + videoId);
         userService.removeFromDislikedVideos(videoId);
     }
 }

@@ -22,6 +22,10 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/api/user/**
+        - id: comment-service
+          uri: lb://comment-service
+          predicates:
+            - Path=/api/comment/**
 
         - id: discovery-service
           uri: http://localhost:8761

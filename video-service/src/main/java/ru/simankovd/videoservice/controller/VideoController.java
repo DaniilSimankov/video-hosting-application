@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.simankovd.videoservice.dto.CommentDto;
 import ru.simankovd.videoservice.dto.UploadVideoResponse;
 import ru.simankovd.videoservice.dto.VideoDto;
 import ru.simankovd.videoservice.service.VideoService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/video")
@@ -54,7 +56,7 @@ public class VideoController {
 //        return ResponseEntity.ok().headers(headers).build();
 //    }
 
-//    @CrossOrigin(origins = "http://localhost:4200")
+    //    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/edit")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<VideoDto> editVideoMetadata(@RequestBody VideoDto videoDto) {
@@ -77,7 +79,7 @@ public class VideoController {
 
     @PostMapping("/{videoId}/like")
     @ResponseStatus(HttpStatus.OK)
-    public VideoDto likeVideo(@PathVariable String videoId){
+    public VideoDto likeVideo(@PathVariable String videoId) {
 
         log.info("Start like video with Id - {}", videoId);
         VideoDto response = videoService.likeVideo(videoId);
@@ -89,13 +91,44 @@ public class VideoController {
 
     @PostMapping("/{videoId}/dislike")
     @ResponseStatus(HttpStatus.OK)
-    public VideoDto dislikeVideo(@PathVariable String videoId){
+    public VideoDto dislikeVideo(@PathVariable String videoId) {
 
         log.info("Start dislike video with Id - {}", videoId);
         VideoDto response = videoService.dislikeVideo(videoId);
         log.info("End dislike video with Id - {}", videoId);
 
         return response;
-
     }
+
+    @PostMapping("/{videoId}/comment")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addComment(@PathVariable String videoId, @RequestBody CommentDto commentDto) {
+
+        log.info("Start commenting video with Id - {}", videoId);
+        videoService.addComment(videoId, commentDto);
+        log.info("End commenting video with Id - {}", videoId);
+    }
+
+    @GetMapping("/{videoId}/comment")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CommentDto> getAllComments(@PathVariable String videoId) {
+
+        log.info("Start getting all comments for video with Id - {}", videoId);
+        List<CommentDto> comments = videoService.getAllComments(videoId);
+        log.info("End getting all comments for video with Id - {}", videoId);
+
+        return comments;
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<VideoDto> getAllVideos() {
+
+        log.info("Start getting all videos");
+        List<VideoDto> videos = videoService.getAllVideos();
+        log.info("End getting all videos");
+
+        return videos;
+    }
+
 }

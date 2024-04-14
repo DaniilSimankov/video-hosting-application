@@ -1,8 +1,12 @@
 package ru.simankovd.videoservice.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import ru.simankovd.videoservice.dto.CommentDto;
 import ru.simankovd.videoservice.dto.UploadVideoResponse;
 import ru.simankovd.videoservice.dto.VideoDto;
+
+import java.util.List;
+import java.util.Set;
 
 public interface VideoService {
 
@@ -26,4 +30,11 @@ public interface VideoService {
     VideoDto likeVideo(String videoId);
 
     VideoDto dislikeVideo(String videoId);
+
+    void addComment(String videoId, CommentDto commentDto);
+
+    List<CommentDto> getAllComments(String videoId);
+
+    List<VideoDto> getAllVideos();
+
 }

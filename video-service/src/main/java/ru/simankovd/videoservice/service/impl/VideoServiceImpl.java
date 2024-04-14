@@ -7,12 +7,17 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.simankovd.videoservice.client.UserClient;
+import ru.simankovd.videoservice.dto.CommentDto;
 import ru.simankovd.videoservice.dto.UploadVideoResponse;
 import ru.simankovd.videoservice.dto.VideoDto;
+import ru.simankovd.videoservice.model.Comment;
 import ru.simankovd.videoservice.model.Video;
 import ru.simankovd.videoservice.repository.VideoRepository;
 import ru.simankovd.videoservice.service.FileService;
 import ru.simankovd.videoservice.service.VideoService;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -179,6 +184,28 @@ public class VideoServiceImpl implements VideoService {
         return VideoDto.from(videoById);
     }
 
+    @Override
+    public void addComment(String videoId, CommentDto commentDto) {
+        Video videoById = getVideoById(videoId);
+        Comment comment = Comment.from(commentDto);
+        videoById.addComment(comment);
+
+        videoRepository.save(videoById);
+    }
+
+    @Override
+    public List<CommentDto> getAllComments(String videoId) {
+        Video videoById = getVideoById(videoId);
+
+        return CommentDto.from(videoById.getCommentList());
+    }
+
+    @Override
+    public List<VideoDto> getAllVideos() {
+        List<Video> videos = videoRepository.findAll();
+
+        return VideoDto.from(videos);
+    }
 
     private static String getJwt() {
         return ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getTokenValue();

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,5 +44,9 @@ public class VideoDto {
                 .dislikeCount(video.getDislikes().get())
                 .viewCount(video.getViewCount().get())
                 .build();
+    }
+
+    public static List<VideoDto> from(List<Video> videos){
+        return videos.stream().map(VideoDto::from).collect(Collectors.toList());
     }
 }

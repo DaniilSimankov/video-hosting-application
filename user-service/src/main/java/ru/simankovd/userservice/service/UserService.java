@@ -3,6 +3,8 @@ package ru.simankovd.userservice.service;
 import ru.simankovd.userservice.dto.UserDto;
 import ru.simankovd.userservice.model.User;
 
+import java.util.Set;
+
 public interface UserService {
 
     void registerUser(String jwt);
@@ -28,4 +30,6 @@ public interface UserService {
     void subscribeUser(String userId);
 
     void unsubscribeUser(String userId);
+
+    Set<String> getUserHistory(String userId);
 }

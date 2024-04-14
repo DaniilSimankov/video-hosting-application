@@ -2,12 +2,15 @@ package ru.simankovd.userservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import ru.simankovd.userservice.dto.UserDto;
 import ru.simankovd.userservice.dto.UserInfoDto;
 import ru.simankovd.userservice.service.UserService;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/user")
@@ -48,6 +51,17 @@ public class UserController {
         log.info("End unsubscribing");
 
         return true;
+    }
+
+    @GetMapping("/{userId}/history")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<String> userHistory(@PathVariable String userId) {
+
+        log.info("Start getting history");
+        Set<String> history = userService.getUserHistory(userId);
+        log.info("End getting history");
+
+        return history;
     }
 
     @GetMapping

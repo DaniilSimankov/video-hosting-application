@@ -57,14 +57,14 @@ public class UserController {
     @GetMapping("/video/check/like/{videoId}")
     boolean ifLikedVideo(@PathVariable String videoId){
 
-        log.info("Check id liked video with id: " + videoId);
+        log.info("Check if liked video with id: " + videoId);
         return userService.ifLikedVideo(videoId);
     }
 
     @GetMapping("/video/check/dislike/{videoId}")
     boolean ifDislikedVideo(@PathVariable String videoId){
 
-        log.info("Check id disliked video with id: " + videoId);
+        log.info("Check if disliked video with id: " + videoId);
         return userService.ifDislikedVideo(videoId);
     }
 
@@ -81,5 +81,16 @@ public class UserController {
 
         log.info("Remove from disliked video with id: " + videoId);
         userService.removeFromDislikedVideos(videoId);
+    }
+
+
+
+    @GetMapping("/video/{videoId}")
+    void addVideoToHistory(@PathVariable String videoId){
+
+        log.info("Start adding to history video with id: " + videoId);
+        userService.addVideoToHistory(videoId);
+        log.info("End adding to history video with id: " + videoId);
+
     }
 }

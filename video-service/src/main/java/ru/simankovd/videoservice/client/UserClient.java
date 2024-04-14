@@ -32,4 +32,7 @@ public interface UserClient {
 
     @RequestMapping("/api/user/video/remove/dislike/{videoId}")
     void removeFromDislikedVideos(@PathVariable("videoId") String videoId, @RequestHeader(AUTH_TOKEN) String bearerToken);
+
+    @RequestMapping("/api/user/video/{videoId}")
+    void addVideoToHistory(@PathVariable("videoId") String videoId, @RequestHeader(AUTH_TOKEN) String bearerToken);
 }

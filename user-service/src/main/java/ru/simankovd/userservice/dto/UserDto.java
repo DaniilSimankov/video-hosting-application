@@ -21,53 +21,23 @@ public class UserDto {
     private String lastName;
     private String fullName;
     private String emailAddress;
-    private String sub;
     private Set<String> subscribedToUsers = ConcurrentHashMap.newKeySet();
     private Set<String> subscribers = ConcurrentHashMap.newKeySet();
     private Set<String> videoHistory  = ConcurrentHashMap.newKeySet();
     private Set<String> likedVideos  = ConcurrentHashMap.newKeySet();
     private Set<String> dislikedVideos = ConcurrentHashMap.newKeySet();
 
-    public void addToLikeVideos(String videoId){
-        likedVideos.add(videoId);
-    }
-
-    public void removeFromLikedVideos(String videoId){
-        likedVideos.remove(videoId);
-    }
-
-    public void addToDislikedVideos(String videoId){
-        dislikedVideos.add(videoId);
-    }
-
-    public void removeFromDislikedVideos(String videoId){
-        dislikedVideos.remove(videoId);
-    }
-
-    public void addToVideoHistory(String videoId){
-        videoHistory.add(videoId);
-    }
-
-    public void addToSubscribedTOUsers(String userId){
-        subscribedToUsers.add(userId);
-    }
-
-    public void addToSubscribers(String userId){
-        subscribers.add(userId);
-    }
-
-    public void removeFromSubscribedToUsers(String userId){
-        subscribedToUsers.remove(userId);
-    }
-
-    public void removeFromSubscribers(String userId){
-        subscribers.remove(userId);
-    }
-
-    public static UserDto from(User user){ // todo добавить остальные поля
+    public static UserDto from(User user){
         return UserDto.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .fullName(user.getFullName())
+                .emailAddress(user.getEmailAddress())
                 .likedVideos(user.getLikedVideos())
                 .dislikedVideos(user.getDislikedVideos())
+                .videoHistory(user.getVideoHistory())
+                .subscribedToUsers(user.getSubscribedToUsers())
+                .subscribers(user.getSubscribers())
                 .build();
     }
 

@@ -18,7 +18,6 @@ spring:
           uri: lb://video-service
           predicates:
             - Path=/api/video/**
-            -
         - id: user-service
           uri: lb://user-service
           predicates:

@@ -134,6 +134,46 @@ public class VideoServiceImpl implements VideoService {
         return VideoDto.from(videoById);
     }
 
+    @Override
+    public VideoDto dislikeVideo(String videoId) {
+
+        // Get video by ID
+        Video videoById = getVideoById(videoId);
+
+        // Increment Like Count
+        // If user already liked the video,
+        // then decrement like video.
+
+        // If user already disliked the video,
+        // then increment like count and decrement dislike count
+
+        String jwt = getJwt();
+
+        if (userClient.ifLikedVideo(videoId, getBearerToken(jwt))) {
+            log.info("Video with id: " + videoId + " was liked");
+
+            videoById.decrementLikes();
+            userClient.removeFromLikedVideos(videoId, getBearerToken(jwt));
+
+            videoById.incrementDislikes();
+            userClient.addToDislikeVideos(videoId, getBearerToken(jwt));
+        } else if (userClient.ifDislikedVideo(videoId, getBearerToken(jwt))) {
+            log.info("Video with id: " + videoId + " was disliked");
+
+            videoById.decrementDislikes();
+            userClient.removeFromDislikedVideos(videoId, getBearerToken(jwt));
+        } else {
+            log.info("Video with id: " + videoId + " wasnt liked/disliked");
+
+            videoById.incrementDislikes();
+            userClient.addToDislikeVideos(videoId, getBearerToken(jwt));
+        }
+
+        videoRepository.save(videoById);
+
+        return VideoDto.from(videoById);
+    }
+
     private static String getBearerToken(String jwt) {
         return "Bearer " + jwt;
     }

@@ -13,6 +13,8 @@ public interface UserService {
 
     void addToLikeVideos(String videoId);
 
+    void addToDislikeVideos(String videoId);
+
     boolean ifLikedVideo(String videoId);
 
     boolean ifDislikedVideo(String videoId);
@@ -20,5 +22,4 @@ public interface UserService {
     void removeFromLikedVideos(String videoId);
 
     void removeFromDislikedVideos(String videoId);
-
 }

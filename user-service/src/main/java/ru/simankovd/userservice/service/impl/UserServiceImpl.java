@@ -106,6 +106,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void addToDislikeVideos(String videoId) {
+
+        User currentUser = getCurrentUser();
+        currentUser.addToDislikedVideos(videoId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
     public boolean ifLikedVideo(String videoId) {
         return getCurrentUser().getLikedVideos().stream().anyMatch(likedVideo -> likedVideo.equals(videoId));
     }
@@ -116,7 +124,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeFromLikedVideos(String videoId){
+    public void removeFromLikedVideos(String videoId) {
         User currentUser = getCurrentUser();
         currentUser.removeFromLikedVideos(videoId);
         userRepository.save(currentUser);

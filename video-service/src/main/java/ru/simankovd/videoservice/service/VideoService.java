@@ -24,4 +24,6 @@ public interface VideoService {
      * @return
      */
     VideoDto likeVideo(String videoId);
+
+    VideoDto dislikeVideo(String videoId);
 }

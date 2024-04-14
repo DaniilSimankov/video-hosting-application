@@ -10,7 +10,6 @@ import ru.simankovd.videoservice.dto.UserDto;
 @FeignClient(value = "user-service")
 public interface UserClient {
 
-    // todo добавить jwt
     String AUTH_TOKEN = "Authorization";
 
     @RequestMapping("/api/user")
@@ -18,6 +17,9 @@ public interface UserClient {
 
     @RequestMapping("/api/user/like/{videoId}")
     void addToLikeVideos(@PathVariable("videoId") String videoId, @RequestHeader(AUTH_TOKEN) String bearerToken);
+
+    @RequestMapping("/api/user/dislike/{videoId}")
+    void addToDislikeVideos(@PathVariable("videoId") String videoId, @RequestHeader(AUTH_TOKEN) String bearerToken);
 
     @RequestMapping("/api/user/video/check/like/{videoId}")
     boolean ifLikedVideo(@PathVariable("videoId") String videoId, @RequestHeader(AUTH_TOKEN) String bearerToken);

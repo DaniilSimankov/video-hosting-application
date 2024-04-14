@@ -47,6 +47,13 @@ public class UserController {
         userService.addToLikeVideos(videoId);
     }
 
+    @GetMapping("/dislike/{videoId}")
+    void addToDislikeVideos(@PathVariable String videoId){
+
+        log.info("Add to dislike video with id: " + videoId);
+        userService.addToDislikeVideos(videoId);
+    }
+
     @GetMapping("/video/check/like/{videoId}")
     boolean ifLikedVideo(@PathVariable String videoId){
 

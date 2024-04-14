@@ -50,7 +50,7 @@ public class User {
         videoHistory.add(videoId);
     }
 
-    public void addToSubscribedTOUsers(String userId){
+    public void addToSubscribedToUsers(String userId){
         subscribedToUsers.add(userId);
     }
 

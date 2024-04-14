@@ -24,4 +24,8 @@ public interface UserService {
     void removeFromDislikedVideos(String videoId);
 
     void addVideoToHistory(String videoId);
+
+    void subscribeUser(String userId);
+
+    void unsubscribeUser(String userId);
 }

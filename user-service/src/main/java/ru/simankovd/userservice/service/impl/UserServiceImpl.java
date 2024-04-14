@@ -144,6 +144,38 @@ public class UserServiceImpl implements UserService {
         userRepository.save(currentUser);
     }
 
+    @Override
+    public void subscribeUser(String userId) {
+
+        // Retrieve the current user and add the userId to the subscribed to users set
+        User currentUser = getCurrentUser();
+        currentUser.addToSubscribedToUsers(userId);
+
+        // Retrieve the target user and add the current user to the subscribers set
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find user with userId: " + userId));
+        user.addToSubscribers(currentUser.getId());
+
+        userRepository.save(currentUser);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void unsubscribeUser(String userId) {
+
+        // Retrieve the current user and add the userId to the subscribed to users set
+        User currentUser = getCurrentUser();
+        currentUser.removeFromSubscribedToUsers(userId);
+
+        // Retrieve the target user and add the current user to the subscribers set
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find user with userId: " + userId));
+        user.removeFromSubscribers(currentUser.getId());
+
+        userRepository.save(currentUser);
+        userRepository.save(user);
+    }
+
 
     private static String getSub() {
         return ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaim("sub");

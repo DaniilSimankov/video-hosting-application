@@ -25,14 +25,17 @@ import {VgOverlayPlayModule} from "@videogular/ngx-videogular/overlay-play";
 import {VgBufferingModule} from "@videogular/ngx-videogular/buffering";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {VideoPlayerComponent} from './video-player/video-player.component';
-import { AuthConfigModule } from './auth/auth-config.module';
+import {AuthConfigModule} from './auth/auth-config.module';
 import {AuthInterceptor} from "angular-auth-oidc-client";
-import { VideoDetailComponent } from './video-detail/video-detail.component';
-import { HomeComponent } from './home/home.component';
-import { HistoryComponent } from './history/history.component';
-import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
-import { LikedVideosComponent } from './liked-videos/liked-videos.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import {VideoDetailComponent} from './video-detail/video-detail.component';
+import {HomeComponent} from './home/home.component';
+import {HistoryComponent} from './history/history.component';
+import {SubscriptionsComponent} from './subscriptions/subscriptions.component';
+import {LikedVideosComponent} from './liked-videos/liked-videos.component';
+import {SidebarComponent} from './sidebar/sidebar.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+import { FeaturedComponent } from './featured/featured.component';
 
 @NgModule({
     declarations: [
@@ -46,7 +49,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
         HistoryComponent,
         SubscriptionsComponent,
         LikedVideosComponent,
-        SidebarComponent
+        SidebarComponent,
+        FeaturedComponent
     ],
     imports: [
         BrowserModule,
@@ -71,6 +75,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
         VgBufferingModule,
         MatSnackBarModule,
         AuthConfigModule,
+        MatSidenavModule,
+        MatListModule,
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

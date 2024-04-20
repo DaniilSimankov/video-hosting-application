@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void registerUser(String jwt) {
+    public String registerUser(String jwt) {
         // Make a call to the userInfo Endpoint
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .GET()
@@ -55,6 +56,12 @@ public class UserServiceImpl implements UserService {
             UserInfoDto userInfoDto = objectMapper.readValue(body, UserInfoDto.class);
 
             log.info("User nickname: " + userInfoDto.getNickname());
+
+            Optional<User> userBySubject = userRepository.findBySub(userInfoDto.getSub());
+            if(userBySubject.isPresent()) {
+                return userBySubject.get().getId();
+            }
+
             User user = User.builder()
                     .firstName(userInfoDto.getNickname())
                     .lastName(userInfoDto.getName())
@@ -63,12 +70,9 @@ public class UserServiceImpl implements UserService {
                     .sub(userInfoDto.getSub())
                     .build();
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
             // todo add kafka to notification service
 
-            userRepository.save(user);
-
+            return userRepository.save(user).getId();
         } catch (IOException e) {
             throw new RuntimeException("Exception occurred while registering user", e);
         } catch (InterruptedException e) {

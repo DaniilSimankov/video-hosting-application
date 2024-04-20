@@ -25,12 +25,11 @@ public class UserController {
         log.info("Start saving information...");
         Jwt jwt = (Jwt) authentication.getPrincipal();
 
-        userService.registerUser(jwt.getTokenValue());
+        String userId = userService.registerUser(jwt.getTokenValue());
 
         log.info("End saving information");
 
-
-        return "User registration succesfully";
+        return userId;
     }
 
     @PostMapping("/subscribe/{userId}")

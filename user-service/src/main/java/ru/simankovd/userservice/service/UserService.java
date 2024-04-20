@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface UserService {
 
-    void registerUser(String jwt);
+    String registerUser(String jwt);
 
     User getCurrentUser();
 

@@ -41,7 +41,15 @@ export class VideoService {
         return this.httpClient.post<VideoDto>("http://localhost:8080/api/video/edit", videoMetaData);
     }
 
-    getAllVideos(): Observable<Array<VideoDto>>{
+    getAllVideos(): Observable<Array<VideoDto>> {
         return this.httpClient.get<Array<VideoDto>>("http://localhost:8080/api/video");
+    }
+
+    likeVideo(videoId: string):Observable<VideoDto> {
+        return this.httpClient.post<VideoDto>("http://localhost:8080/api/video/" + videoId + "/like", null);
+    }
+
+    dislikeVideo(videoId: string):Observable<VideoDto> {
+        return this.httpClient.post<VideoDto>("http://localhost:8080/api/video/" + videoId + "/dislike", null);
     }
 }

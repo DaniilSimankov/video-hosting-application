@@ -35,7 +35,9 @@ import {LikedVideosComponent} from './liked-videos/liked-videos.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
-import { FeaturedComponent } from './featured/featured.component';
+import {FeaturedComponent} from './featured/featured.component';
+import {VideoCardComponent} from './video-card/video-card.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
     declarations: [
@@ -50,7 +52,8 @@ import { FeaturedComponent } from './featured/featured.component';
         SubscriptionsComponent,
         LikedVideosComponent,
         SidebarComponent,
-        FeaturedComponent
+        FeaturedComponent,
+        VideoCardComponent
     ],
     imports: [
         BrowserModule,
@@ -77,6 +80,7 @@ import { FeaturedComponent } from './featured/featured.component';
         AuthConfigModule,
         MatSidenavModule,
         MatListModule,
+        MatCardModule,
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

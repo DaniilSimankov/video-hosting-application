@@ -103,6 +103,9 @@ export class SaveVideoDetailsComponent implements OnInit {
             "videoStatus": this.saveVideoDetailsForm.get('videoStatus')?.value,
             "videoUrl": this.videoUrl,
             "thumbnailUrl": this.thumbnailUrl,
+            'likeCount': 0,
+            'dislikeCount': 0,
+            'viewCount': 0
         }
         this.videoService.saveVideo(videoMetaData).subscribe(data => {
             console.log("Successfully upload Metadata",data);

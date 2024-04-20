@@ -23,6 +23,18 @@ public class VideoController {
 
     private final VideoService videoService;
 
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<VideoDto> getAllVideos() {
+
+        log.info("Start getting all videos");
+        List<VideoDto> videos = videoService.getAllVideos();
+        log.info("End getting all videos");
+
+        return videos;
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UploadVideoResponse uploadVideo(@RequestParam("file") MultipartFile file) {
@@ -45,18 +57,6 @@ public class VideoController {
         return thumbnailUrl;
     }
 
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping(value = "/edit", method = RequestMethod.OPTIONS)
-//    public ResponseEntity<?> optionsEditVideoMetadata() {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Allow", "GET, POST, PUT, DELETE, OPTIONS");
-//        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//        headers.add("Access-Control-Allow-Headers", "Content-Type, Accept");
-//        headers.add("Access-Control-Max-Age", "3600");
-//        return ResponseEntity.ok().headers(headers).build();
-//    }
-
-    //    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/edit")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<VideoDto> editVideoMetadata(@RequestBody VideoDto videoDto) {
@@ -120,15 +120,5 @@ public class VideoController {
         return comments;
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<VideoDto> getAllVideos() {
-
-        log.info("Start getting all videos");
-        List<VideoDto> videos = videoService.getAllVideos();
-        log.info("End getting all videos");
-
-        return videos;
-    }
 
 }

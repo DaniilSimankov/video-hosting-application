@@ -38,10 +38,10 @@ export class VideoService {
     }
 
     saveVideo(videoMetaData: VideoDto): Observable<VideoDto> {
-        // const headers = new HttpHeaders()
-        //     .set('Content-Type', 'application/json')
-        //     .set('Accept', 'application/json')
-        // ;
         return this.httpClient.post<VideoDto>("http://localhost:8080/api/video/edit", videoMetaData);
+    }
+
+    getAllVideos(): Observable<Array<VideoDto>>{
+        return this.httpClient.get<Array<VideoDto>>("http://localhost:8080/api/video");
     }
 }

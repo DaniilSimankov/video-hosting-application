@@ -12,7 +12,7 @@ export class CallbackComponent implements OnInit {
   // todo callback
   constructor(private userService: UserService, router: Router) {
     this.userService.registerUser();
-    router.navigateByUrl('');
+    router.navigateByUrl('/featured');
   }
 
   ngOnInit(): void {

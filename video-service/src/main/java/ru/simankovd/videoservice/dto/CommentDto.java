@@ -16,12 +16,14 @@ import java.util.stream.Collectors;
 public class CommentDto {
 
     private String commentText;
-    private String authorId;
+    private String email;
+    private String nickname;
 
     public static CommentDto from(Comment comment){
         return  CommentDto.builder()
-                .authorId(comment.getAuthorId())
+                .email(comment.getEmail())
                 .commentText(comment.getText())
+                .nickname(comment.getNickname())
                 .build();
     }
 

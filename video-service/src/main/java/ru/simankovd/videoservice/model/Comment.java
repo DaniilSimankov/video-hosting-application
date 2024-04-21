@@ -16,14 +16,16 @@ public class Comment {
     @Id
     private String id;
     private String text;
-    private String authorId;
+    private String email;
+    private String nickname;
     private Integer likeCount;
     private Integer dislikeCount;
 
     public static Comment from(CommentDto dto){
         return Comment.builder()
                 .text(dto.getCommentText())
-                .authorId(dto.getAuthorId())
+                .nickname(dto.getNickname())
+                .email(dto.getEmail())
                 .build();
     }
 }

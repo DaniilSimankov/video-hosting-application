@@ -2,6 +2,7 @@ package ru.simankovd.videoservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.simankovd.videoservice.client.UserClient;
 import ru.simankovd.videoservice.dto.CommentDto;
 import ru.simankovd.videoservice.dto.UploadVideoResponse;
+import ru.simankovd.videoservice.dto.UserDto;
 import ru.simankovd.videoservice.dto.VideoDto;
 import ru.simankovd.videoservice.model.Comment;
 import ru.simankovd.videoservice.model.Video;
@@ -186,6 +188,11 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public void addComment(String videoId, CommentDto commentDto) {
+
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+        commentDto.setNickname(currentUser.getFirstName());
+        commentDto.setEmail(currentUser.getEmailAddress());
+
         Video videoById = getVideoById(videoId);
         Comment comment = Comment.from(commentDto);
         videoById.addComment(comment);

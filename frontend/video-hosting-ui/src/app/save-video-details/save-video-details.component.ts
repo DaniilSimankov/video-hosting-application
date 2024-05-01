@@ -3,7 +3,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {VideoService} from "../video.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {VideoDto} from "../video-dto";
@@ -33,9 +33,11 @@ export class SaveVideoDetailsComponent implements OnInit {
     selectedFileName = '';
     tags: string[] = [];
     announcer = inject(LiveAnnouncer);
+    private router: Router;
 
     constructor(private activatedRoute: ActivatedRoute, private videoService: VideoService,
-                private matSnackBar: MatSnackBar) {
+                private matSnackBar: MatSnackBar, router: Router) {
+        this.router = router;
         this.videoId = this.activatedRoute.snapshot.params['videoId'];
         this.videoService.getVideo(this.videoId).subscribe(data => {
             this.videoUrl = data.videoUrl;
@@ -84,7 +86,7 @@ export class SaveVideoDetailsComponent implements OnInit {
     onUpload() {
         this.videoService.uploadThumbnail(this.selectedFile, this.videoId)
             .subscribe(data => {
-                console.log("Successfully upload Thumbnail",data);
+                console.log("Successfully upload Thumbnail", data);
                 // show an upload success notification
                 // this.thumbnailUrl = data;
                 this.matSnackBar.open("Thumbnail upload Successful", "OK");
@@ -107,13 +109,18 @@ export class SaveVideoDetailsComponent implements OnInit {
             'dislikeCount': 0,
             'viewCount': 0,
             'authorId': '',
+            'authorNickname': '',
             'isSubscribed': true,
-            'isAuthor': true
+            'isAuthor': true,
+            'subscribersCount': '',
+            'date': '',
         }
         this.videoService.saveVideo(videoMetaData).subscribe(data => {
-            console.log("Successfully upload Metadata",data);
+            console.log("Successfully upload Metadata", data);
 
             this.matSnackBar.open("Video Metadata updated successfully", "OK ");
+
+            this.router.navigateByUrl('/video-details/' + this.videoId);
         });
     }
 }

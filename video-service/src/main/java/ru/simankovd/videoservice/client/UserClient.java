@@ -35,4 +35,7 @@ public interface UserClient {
 
     @RequestMapping("/api/user/video/{videoId}")
     void addVideoToHistory(@PathVariable("videoId") String videoId, @RequestHeader(AUTH_TOKEN) String bearerToken);
+
+    @RequestMapping("/api/user/{userId}")
+    UserDto getUserById(@PathVariable("userId") String userId, @RequestHeader(AUTH_TOKEN) String bearerToken);
 }

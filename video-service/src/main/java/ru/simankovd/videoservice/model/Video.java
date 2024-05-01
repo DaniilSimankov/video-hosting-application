@@ -25,6 +25,7 @@ public class Video {
     private String title;
     private String description;
     private String userId;
+    private String userNickname;
     private AtomicInteger likes = new AtomicInteger(0);
     private AtomicInteger dislikes = new AtomicInteger(0);
     private Set<String> tags;
@@ -33,6 +34,8 @@ public class Video {
     private AtomicInteger viewCount = new AtomicInteger(0);
     private String thumbnailUrl;
     private List<Comment> commentList = new CopyOnWriteArrayList<>();
+    private String date;
+
 
     public void incrementLikes() {
         likes.incrementAndGet();

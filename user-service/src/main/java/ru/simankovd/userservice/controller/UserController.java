@@ -70,6 +70,13 @@ public class UserController {
         return userService.getCurrentUserDto();
     }
 
+    @GetMapping("/{userId}")
+    public UserDto getUserById(@PathVariable("userId") String userId) {
+
+        log.info("Get current user");
+        return userService.getUserDtoById(userId);
+    }
+
     ///////////////////////////////////////////
 
     @GetMapping("/like/{videoId}")

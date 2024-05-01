@@ -23,6 +23,7 @@ public class VideoDto {
     private Set<String> tags;
     private String videoUrl;
     private String authorId;
+    private String authorNickname;
     private VideoStatus videoStatus;
     private String thumbnailUrl;
     private Integer likeCount;
@@ -30,7 +31,8 @@ public class VideoDto {
     private Integer viewCount;
     private Boolean isSubscribed;
     private Boolean isAuthor;
-    // todo isSubscribe
+    private String subscribersCount;
+    private String date;
 
     public static VideoDto from(Video video){
         return VideoDto.builder()
@@ -45,6 +47,8 @@ public class VideoDto {
                 .dislikeCount(video.getDislikes().get())
                 .viewCount(video.getViewCount().get())
                 .authorId(video.getUserId())
+                .authorNickname(video.getUserNickname())
+                .date(video.getDate())
                 .build();
     }
 

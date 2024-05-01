@@ -94,6 +94,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserDtoById(String userId) {
+        return UserDto.from(getUserById(userId));
+    }
+
+    @Override
     public UserDto getCurrentUserDto() {
         String sub = getSub();
 

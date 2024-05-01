@@ -14,8 +14,11 @@ export class VideoDetailComponent implements OnInit {
     videoId!: string;
     videoUrl!: string;
     authorId!: string;
+    authorNickname!: string;
     videoAvailable: boolean = false;
     videoTitle!: string;
+    date!: string;
+    subscribersCount!: string;
     videoDescription!: string;
     videoTags: Array<string> = [];
     likeCount: number = 0;
@@ -24,8 +27,9 @@ export class VideoDetailComponent implements OnInit {
     showSubscribeButton: boolean = true;
     showUnsubscribeButton: boolean = false;
     isAuthor: boolean = true;
+
+
     // todo протестить
-    isSubscribed: boolean = false;
 
     constructor(private activatedRoute: ActivatedRoute,
                 private videoService: VideoService,
@@ -43,6 +47,9 @@ export class VideoDetailComponent implements OnInit {
             this.viewCount = data.viewCount;
             this.authorId = data.authorId;
             this.isAuthor = data.isAuthor;
+            this.authorNickname = data.authorNickname;
+            this.date = data.date;
+            this.subscribersCount = data.subscribersCount;
             if (data.isSubscribed) {
                 this.showSubscribeButton = false;
                 this.showUnsubscribeButton = true;

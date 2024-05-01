@@ -19,6 +19,8 @@ import ru.simankovd.videoservice.service.VideoService;
 
 import java.util.List;
 
+import static ru.simankovd.videoservice.utils.DateUtil.getCurrentDateVideoFormat;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -36,6 +38,7 @@ public class VideoServiceImpl implements VideoService {
         log.info("AWS S3 video file url: {}", videoUrl);
         var video = Video.builder()
                 .videoUrl(videoUrl)
+                .date(getCurrentDateVideoFormat())
                 .build();
 
         // Save Video Data to Database
@@ -60,6 +63,7 @@ public class VideoServiceImpl implements VideoService {
         savedVideo.setTags(videoDto.getTags());
         savedVideo.setVideoStatus(videoDto.getVideoStatus());
         savedVideo.setUserId(currentUser.getUserId());
+        savedVideo.setUserNickname(currentUser.getFirstName());
 
         // Save video to the DB
         videoRepository.save(savedVideo);
@@ -94,10 +98,16 @@ public class VideoServiceImpl implements VideoService {
         userClient.addVideoToHistory(videoId, getBearerToken());
 
         UserDto currentUser = userClient.getCurrentUser(getBearerToken());
-
         VideoDto videoDto = VideoDto.from(videoById);
         videoDto.setIsSubscribed(currentUser.getSubscribedToUsers().stream().anyMatch(e -> e.equals(videoById.getUserId())));
-        videoDto.setIsAuthor(videoById.getUserId().equals(currentUser.getUserId()));
+
+        if (videoById.getUserId() != null) {
+            UserDto author = userClient.getUserById(videoById.getUserId(), getBearerToken());
+            videoDto.setSubscribersCount(String.valueOf(author.getSubscribers().size()));
+
+            videoDto.setIsAuthor(videoById.getUserId().equals(currentUser.getUserId()));
+        }
+
 
         return videoDto;
     }

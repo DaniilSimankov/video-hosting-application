@@ -32,4 +32,6 @@ public interface UserService {
     void unsubscribeUser(String userId);
 
     Set<String> getUserHistory(String userId);
+
+    UserDto getUserDtoById(String userId);
 }

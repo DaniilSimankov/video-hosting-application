@@ -33,7 +33,7 @@ public class SecurityConfig {
         serverHttpSecurity
                 .csrf().disable()
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/eureka/**") // для static ресурсов для eureka
+                        .pathMatchers("/eureka/**", "/api/user/register")
                         .permitAll()
                         .anyExchange()
                         .authenticated()

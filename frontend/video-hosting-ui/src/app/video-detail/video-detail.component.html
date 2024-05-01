@@ -8,7 +8,7 @@
                     <span class="view-count">{{viewCount}} Views</span>
                     <span class="dot"></span>
                     <!--                    todo добавить дату-->
-                    <span class="video-upload-date">Apr 13, 2021</span>
+                    <span class="video-upload-date">{{date}}</span>
                 </div>
                 <div fxFlex="50%" fxLayoutAlign="end">
                     <span class="like-dislike-section">
@@ -25,10 +25,9 @@
             </div>
             <mat-divider></mat-divider>
             <mat-card-header>
-                <!--                todo добавить ник юзера-->
-                <mat-card-title>Simankovd</mat-card-title>
+                <mat-card-title>{{authorNickname}}</mat-card-title>
                 <!--                todo добавить количество подписчиков (и пробел)-->
-                <mat-card-subtitle class="subtitles">4.2K Subscribers</mat-card-subtitle>
+                <mat-card-subtitle class="subtitles">{{subscribersCount}} Subscribers</mat-card-subtitle>
                 <div *ngIf="!isAuthor">
                     <button class="subscribe-button" mat-raised-button color="warn" *ngIf="showSubscribeButton"
                             (click)="subscribeToUser()">

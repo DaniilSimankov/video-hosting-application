@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import ru.simankovd.videoservice.dto.CommentDto;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import static ru.simankovd.videoservice.utils.DateUtil.getCurrentDateCommentFormat;
 
 @Data
 @AllArgsConstructor
@@ -31,16 +30,8 @@ public class Comment {
                 .text(dto.getCommentText())
                 .nickname(dto.getNickname())
                 .email(dto.getEmail())
-                .date(getCurrentDate())
+                .date(getCurrentDateCommentFormat())
                 .build();
-    }
-
-    static String getCurrentDate() {
-        return LocalDateTime.now().getDayOfMonth()+ "-" +
-                LocalDateTime.now().getMonthValue() + "-" +
-                LocalDateTime.now().getYear() + " " +
-                LocalDateTime.now().getHour() + ":" +
-                LocalDateTime.now().getMinute();
     }
 
 

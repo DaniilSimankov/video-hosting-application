@@ -9,4 +9,9 @@ export interface VideoDto {
     likeCount: number;
     dislikeCount: number;
     viewCount: number;
+    authorId: string;
+    isSubscribed: boolean;
+    isAuthor: boolean;
+
+    // todo  количество подписчиков
 }

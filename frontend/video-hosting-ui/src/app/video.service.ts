@@ -19,7 +19,7 @@ export class VideoService {
         formData.append('file', file, file.name);
 
         // HTTP Post call to upload the video
-        return this.httpClient.post<UploadVideoResponse>("http://localhost:8080/api/video", formData); // todo change no 8080
+        return this.httpClient.post<UploadVideoResponse>("http://localhost:8080/api/video", formData);
     }
 
     uploadThumbnail(file: File, videoId: string): Observable<string> {
@@ -30,7 +30,7 @@ export class VideoService {
         // HTTP Post call to upload the thumbnail
         return this.httpClient.post("http://localhost:8080/api/video/thumbnail", formData, {
             responseType: 'text'
-        }); // todo change no 8080
+        });
     }
 
     getVideo(videoId: string): Observable<VideoDto> {

@@ -18,12 +18,14 @@ public class CommentDto {
     private String commentText;
     private String email;
     private String nickname;
+    private String date;
 
     public static CommentDto from(Comment comment){
         return  CommentDto.builder()
                 .email(comment.getEmail())
                 .commentText(comment.getText())
                 .nickname(comment.getNickname())
+                .date(comment.getDate().toString())
                 .build();
     }
 

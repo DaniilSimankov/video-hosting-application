@@ -21,6 +21,7 @@ public class UserDto {
     private String lastName;
     private String fullName;
     private String emailAddress;
+    private String userId;
     private Set<String> subscribedToUsers = ConcurrentHashMap.newKeySet();
     private Set<String> subscribers = ConcurrentHashMap.newKeySet();
     private Set<String> videoHistory  = ConcurrentHashMap.newKeySet();
@@ -38,6 +39,7 @@ public class UserDto {
                 .videoHistory(user.getVideoHistory())
                 .subscribedToUsers(user.getSubscribedToUsers())
                 .subscribers(user.getSubscribers())
+                .userId(user.getId())
                 .build();
     }
 

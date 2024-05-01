@@ -105,7 +105,10 @@ export class SaveVideoDetailsComponent implements OnInit {
             "thumbnailUrl": this.thumbnailUrl,
             'likeCount': 0,
             'dislikeCount': 0,
-            'viewCount': 0
+            'viewCount': 0,
+            'authorId': '',
+            'isSubscribed': true,
+            'isAuthor': true
         }
         this.videoService.saveVideo(videoMetaData).subscribe(data => {
             console.log("Successfully upload Metadata",data);

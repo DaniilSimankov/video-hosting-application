@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import ru.simankovd.videoservice.dto.CommentDto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,12 +23,25 @@ public class Comment {
     private String nickname;
     private Integer likeCount;
     private Integer dislikeCount;
+    private String date;
 
-    public static Comment from(CommentDto dto){
+    public static Comment from(CommentDto dto) {
+
         return Comment.builder()
                 .text(dto.getCommentText())
                 .nickname(dto.getNickname())
                 .email(dto.getEmail())
+                .date(getCurrentDate())
                 .build();
     }
+
+    static String getCurrentDate() {
+        return LocalDateTime.now().getDayOfMonth()+ "-" +
+                LocalDateTime.now().getMonthValue() + "-" +
+                LocalDateTime.now().getYear() + " " +
+                LocalDateTime.now().getHour() + ":" +
+                LocalDateTime.now().getMinute();
+    }
+
+
 }

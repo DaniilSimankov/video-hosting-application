@@ -22,10 +22,8 @@
         <div fxFlex="50%">
             <mat-card-header>
                 <div matCardAvatar class="example-header-image"></div>
-
-                <!--                todo добавить ник и дату-->
                 <a matCardTitle class="comment-author" routerLink="">{{comment.nickname}}</a>
-                <p matCardSubtitle>1 Month Ago</p>
+                <p matCardSubtitle>{{comment.date}}</p>
             </mat-card-header>
         </div>
         <div fxFlex="50%" class="delete-comment" fxFlexAlign="end">

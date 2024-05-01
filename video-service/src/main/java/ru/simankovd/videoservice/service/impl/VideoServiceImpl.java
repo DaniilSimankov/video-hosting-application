@@ -2,7 +2,6 @@ package ru.simankovd.videoservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import ru.simankovd.videoservice.service.FileService;
 import ru.simankovd.videoservice.service.VideoService;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +50,8 @@ public class VideoServiceImpl implements VideoService {
         // Find the video by videoId
         Video savedVideo = getVideoById(videoDto.getId());
 
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
         videoDto.setVideoUrl(savedVideo.getVideoUrl());
 
         // Map the videoDto fields to video
@@ -59,7 +59,7 @@ public class VideoServiceImpl implements VideoService {
         savedVideo.setDescription(videoDto.getDescription());
         savedVideo.setTags(videoDto.getTags());
         savedVideo.setVideoStatus(videoDto.getVideoStatus());
-//        savedVideo.setThumbnailUrl(videoDto.getThumbnailUrl());
+        savedVideo.setUserId(currentUser.getUserId());
 
         // Save video to the DB
         videoRepository.save(savedVideo);
@@ -93,7 +93,13 @@ public class VideoServiceImpl implements VideoService {
         increaseVideoCount(videoById);
         userClient.addVideoToHistory(videoId, getBearerToken());
 
-        return VideoDto.from(videoById);
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
+        VideoDto videoDto = VideoDto.from(videoById);
+        videoDto.setIsSubscribed(currentUser.getSubscribedToUsers().stream().anyMatch(e -> e.equals(videoById.getUserId())));
+        videoDto.setIsAuthor(videoById.getUserId().equals(currentUser.getUserId()));
+
+        return videoDto;
     }
 
     /**

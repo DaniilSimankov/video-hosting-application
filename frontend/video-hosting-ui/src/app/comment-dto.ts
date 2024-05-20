@@ -4,4 +4,3 @@ export interface CommentDto {
     nickname: string;
     date: string;
 }
-// todo протестить

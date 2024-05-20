@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
             .checkAuth()
             .subscribe(({isAuthenticated}) => {
                 console.log('app is authenticated', isAuthenticated);
-                this.userService.registerUser();
+                // this.userService.registerUser();
                 // this.router.navigateByUrl('/featured');
             });
     }

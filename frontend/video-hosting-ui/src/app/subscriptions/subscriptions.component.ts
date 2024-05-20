@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {VideoDto} from "../video-dto";
+import {VideoService} from "../video.service";
 
 @Component({
   selector: 'app-subscriptions',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./subscriptions.component.css']
 })
 export class SubscriptionsComponent implements OnInit {
+  subscriptionVideos: Array<VideoDto> = [];
 
-  constructor() { }
+  constructor(private videoService: VideoService) {
+  }
 
   ngOnInit(): void {
+    this.videoService.getSubscriptionsAllVideos().subscribe(response => {
+      this.subscriptionVideos = response;
+    })
   }
 
 }

@@ -37,4 +37,9 @@ public interface VideoService {
 
     List<VideoDto> getAllVideos();
 
+    List<VideoDto> getHistoryAllVideos();
+
+    List<VideoDto> getSubscriptionsAllVideos();
+
+    List<VideoDto> getLikedAllVideos();
 }

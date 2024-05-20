@@ -7,7 +7,6 @@
                 <div fxFlex="50%">
                     <span class="view-count">{{viewCount}} Views</span>
                     <span class="dot"></span>
-                    <!--                    todo добавить дату-->
                     <span class="video-upload-date">{{date}}</span>
                 </div>
                 <div fxFlex="50%" fxLayoutAlign="end">
@@ -26,7 +25,6 @@
             <mat-divider></mat-divider>
             <mat-card-header>
                 <mat-card-title>{{authorNickname}}</mat-card-title>
-                <!--                todo добавить количество подписчиков (и пробел)-->
                 <mat-card-subtitle class="subtitles">{{subscribersCount}} Subscribers</mat-card-subtitle>
                 <div *ngIf="!isAuthor">
                     <button class="subscribe-button" mat-raised-button color="warn" *ngIf="showSubscribeButton"
@@ -43,8 +41,7 @@
             <div>{{videoDescription}}</div>
             <mat-divider></mat-divider>
             <mat-chip-list>
-                <mat-chip>Spring Boot</mat-chip>
-                <mat-chip>Angular</mat-chip>
+                <mat-chip *ngFor="let tag of videoTags">{{tag}}</mat-chip>
             </mat-chip-list>
             <mat-divider></mat-divider>
             <app-comments [videoId]="videoId"></app-comments>

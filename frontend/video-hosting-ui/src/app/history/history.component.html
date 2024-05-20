@@ -3,9 +3,9 @@
 </div>
 
 <div fxLayout="row wrap" fxLayoutGap="12px grid">
-    <div fxFlex="30%" *ngFor="let num of [1,2,3,4,5,6,7,8,9]">
-        <app-video-card></app-video-card>
+    <div fxFlex="30%" *ngFor="let watchedVideo of watchedVideos">
+        <app-video-card [video]="watchedVideo"></app-video-card>
     </div>
+    <!-- todo сделать норм страницу -->
 </div>
 
-<!-- todo сделать норм страницу -->

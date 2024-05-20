@@ -15,8 +15,6 @@ public class DateUtil {
     public static String getCurrentDateVideoFormat() {
         return LocalDateTime.now().getMonth().toString()+ " " +
                 LocalDateTime.now().getDayOfMonth() + ", " +
-                LocalDateTime.now().getYear() + " " +
-                LocalDateTime.now().getHour() + ":" +
-                LocalDateTime.now().getMinute();
+                LocalDateTime.now().getYear();
     }
 }

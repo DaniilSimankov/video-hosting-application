@@ -12,7 +12,6 @@ export class UserService {
     constructor(private httpClient: HttpClient) {
     }
 
-    // todo переделать подипску и отписку тк ошибка в логике
     subscribeToUser(userId: string): Observable<boolean> {
         return this.httpClient.post<boolean>("http://localhost:8080/api/user/subscribe/" + userId, null);
     }

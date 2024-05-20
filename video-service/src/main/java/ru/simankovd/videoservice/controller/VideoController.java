@@ -35,6 +35,39 @@ public class VideoController {
         return videos;
     }
 
+    @GetMapping("/history")
+    @ResponseStatus(HttpStatus.OK)
+    public List<VideoDto> getHistoryAllVideos() {
+
+        log.info("Start getting all videos");
+        List<VideoDto> videos = videoService.getHistoryAllVideos();
+        log.info("End getting all videos");
+
+        return videos;
+    }
+
+    @GetMapping("/subscriptions")
+    @ResponseStatus(HttpStatus.OK)
+    public List<VideoDto> getSubscriptionsAllVideos() {
+
+        log.info("Start getting all videos");
+        List<VideoDto> videos = videoService.getSubscriptionsAllVideos();
+        log.info("End getting all videos");
+
+        return videos;
+    }
+
+    @GetMapping("/liked")
+    @ResponseStatus(HttpStatus.OK)
+    public List<VideoDto> getLikedAllVideos() {
+
+        log.info("Start getting all videos");
+        List<VideoDto> videos = videoService.getLikedAllVideos();
+        log.info("End getting all videos");
+
+        return videos;
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UploadVideoResponse uploadVideo(@RequestParam("file") MultipartFile file) {

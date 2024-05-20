@@ -17,6 +17,7 @@ import ru.simankovd.videoservice.repository.VideoRepository;
 import ru.simankovd.videoservice.service.FileService;
 import ru.simankovd.videoservice.service.VideoService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.simankovd.videoservice.utils.DateUtil.getCurrentDateVideoFormat;
@@ -228,6 +229,52 @@ public class VideoServiceImpl implements VideoService {
         List<Video> videos = videoRepository.findAll();
 
         return VideoDto.from(videos);
+    }
+
+    @Override
+    public List<VideoDto> getHistoryAllVideos() {
+
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
+        List<VideoDto> result = new ArrayList<>();
+
+        currentUser.getVideoHistory()
+                .forEach(id -> {
+                    if (videoRepository.findById(id).isPresent())
+                        result.add(VideoDto.from(videoRepository.findById(id).get()));
+                });
+
+        return result;
+    }
+
+    @Override
+    public List<VideoDto> getSubscriptionsAllVideos() {
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
+        List<VideoDto> result = new ArrayList<>();
+
+        currentUser.getSubscribedToUsers()
+                .forEach(id -> {
+                    if (videoRepository.findAllByUserId(id) != null)
+                        result.addAll(VideoDto.from(videoRepository.findAllByUserId(id)));
+                });
+
+        return result;
+    }
+
+    @Override
+    public List<VideoDto> getLikedAllVideos() {
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
+        List<VideoDto> result = new ArrayList<>();
+
+        currentUser.getLikedVideos()
+                .forEach(id -> {
+                    if (videoRepository.findById(id).isPresent())
+                        result.add(VideoDto.from(videoRepository.findById(id).get()));
+                });
+
+        return result;
     }
 
     private static String getJwt() {

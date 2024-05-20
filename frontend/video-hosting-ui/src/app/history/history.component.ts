@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {VideoDto} from "../video-dto";
+import {VideoService} from "../video.service";
 
 @Component({
   selector: 'app-history',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
+  watchedVideos: Array<VideoDto> = [];
 
-  constructor() { }
+  constructor(private videoService: VideoService) {
+  }
 
   ngOnInit(): void {
+    this.videoService.getHistoryAllVideos().subscribe(response => {
+      this.watchedVideos = response;
+    })
   }
 
 }

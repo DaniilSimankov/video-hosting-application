@@ -28,9 +28,6 @@ export class VideoDetailComponent implements OnInit {
     showUnsubscribeButton: boolean = false;
     isAuthor: boolean = true;
 
-
-    // todo протестить
-
     constructor(private activatedRoute: ActivatedRoute,
                 private videoService: VideoService,
                 private userService: UserService) {

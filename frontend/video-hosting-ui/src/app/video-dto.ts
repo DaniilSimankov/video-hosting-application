@@ -15,6 +15,4 @@ export interface VideoDto {
     subscribersCount: string;
     isSubscribed: boolean;
     isAuthor: boolean;
-
-    // todo  количество подписчиков
 }

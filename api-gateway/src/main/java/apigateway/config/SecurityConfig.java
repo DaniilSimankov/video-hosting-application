@@ -33,7 +33,7 @@ public class SecurityConfig {
         serverHttpSecurity
                 .csrf().disable()
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/eureka/**", "/api/user/register")
+                        .pathMatchers("/eureka/**", "/api/user/register", "/api/video")
                         .permitAll()
                         .anyExchange()
                         .authenticated()

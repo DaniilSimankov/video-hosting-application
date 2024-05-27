@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {VideoService} from "../video.service";
 import {UserService} from "../user.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-video-detail',
@@ -28,9 +29,16 @@ export class VideoDetailComponent implements OnInit {
     showUnsubscribeButton: boolean = false;
     isAuthor: boolean = true;
 
+    private router: Router;
+
+
     constructor(private activatedRoute: ActivatedRoute,
                 private videoService: VideoService,
-                private userService: UserService) {
+                private userService: UserService, private matSnackBar: MatSnackBar,
+                router: Router) {
+
+        this.router = router;
+
         this.videoId = this.activatedRoute.snapshot.params['videoId'];
 
         this.videoService.getVideo(this.videoId).subscribe(data => {
@@ -88,6 +96,19 @@ export class VideoDetailComponent implements OnInit {
         this.userService.unsubscribeToUser(userId).subscribe(data => {
             this.showSubscribeButton = true;
             this.showUnsubscribeButton = false;
+        });
+
+    }
+
+    deleteVideo() {
+        this.videoService.deleteVideo(this.videoId).subscribe(data => {
+
+            console.log("Deleting status: ", data);
+
+            this.matSnackBar.open("Video deleted successfully", "OK ");
+
+            this.router.navigateByUrl('');
+
         });
 
     }

@@ -30,7 +30,7 @@ public class Video {
     private AtomicInteger dislikes = new AtomicInteger(0);
     private Set<String> tags;
     private String videoUrl;
-    private VideoStatus videoStatus;
+//    private VideoStatus videoStatus;
     private AtomicInteger viewCount = new AtomicInteger(0);
     private String thumbnailUrl;
     private List<Comment> commentList = new CopyOnWriteArrayList<>();

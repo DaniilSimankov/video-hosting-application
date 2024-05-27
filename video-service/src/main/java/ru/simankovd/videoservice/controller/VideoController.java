@@ -153,5 +153,27 @@ public class VideoController {
         return comments;
     }
 
+    @PostMapping("/{videoId}/comment/{commentId}/delete")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<CommentDto> deleteComment(@PathVariable String videoId, @PathVariable String commentId) {
+
+        log.info("Start commenting video with Id - {}", videoId);
+        List<CommentDto> comments = videoService.deleteComment(videoId, commentId);
+        log.info("End commenting video with Id - {}", videoId);
+
+        return comments;
+    }
+
+    @PostMapping("/{videoId}/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean deleteVideo(@PathVariable String videoId) {
+
+        log.info("Start deleting video with Id - {}", videoId);
+        boolean isDeleted = videoService.deleteVideo(videoId);
+        log.info("End deleting video with Id - {}", videoId);
+
+        return isDeleted;
+    } // todo test
+
 
 }

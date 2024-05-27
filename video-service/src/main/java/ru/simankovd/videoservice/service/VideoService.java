@@ -42,4 +42,8 @@ public interface VideoService {
     List<VideoDto> getSubscriptionsAllVideos();
 
     List<VideoDto> getLikedAllVideos();
+
+    List<CommentDto> deleteComment(String videoId, String commentId);
+
+    boolean deleteVideo(String videoId);
 }

@@ -62,7 +62,7 @@ public class VideoServiceImpl implements VideoService {
         savedVideo.setTitle(videoDto.getTitle());
         savedVideo.setDescription(videoDto.getDescription());
         savedVideo.setTags(videoDto.getTags());
-        savedVideo.setVideoStatus(videoDto.getVideoStatus());
+//        savedVideo.setVideoStatus(videoDto.getVideoStatus());
         savedVideo.setUserId(currentUser.getUserId());
         savedVideo.setUserNickname(currentUser.getFirstName());
 
@@ -275,6 +275,29 @@ public class VideoServiceImpl implements VideoService {
                 });
 
         return result;
+    }
+
+    @Override
+    public List<CommentDto> deleteComment(String videoId, String commentId) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteVideo(String videoId) {
+
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new IllegalArgumentException("Can not find video by Id - " + videoId));
+
+        boolean isDeleted = false;
+
+        if(video.getUserId().equals(currentUser.getUserId())){
+            videoRepository.delete(video);
+            isDeleted = true;
+        }
+
+        return isDeleted;
     }
 
     private static String getJwt() {

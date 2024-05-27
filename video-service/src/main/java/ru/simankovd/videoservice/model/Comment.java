@@ -25,7 +25,6 @@ public class Comment {
     private String date;
 
     public static Comment from(CommentDto dto) {
-
         return Comment.builder()
                 .text(dto.getCommentText())
                 .nickname(dto.getNickname())

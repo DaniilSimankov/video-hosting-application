@@ -24,7 +24,7 @@ public class VideoDto {
     private String videoUrl;
     private String authorId;
     private String authorNickname;
-    private VideoStatus videoStatus;
+//    private VideoStatus videoStatus;
     private String thumbnailUrl;
     private Integer likeCount;
     private Integer dislikeCount;
@@ -41,7 +41,7 @@ public class VideoDto {
                 .description(video.getDescription())
                 .tags(video.getTags())
                 .videoUrl(video.getVideoUrl())
-                .videoStatus(video.getVideoStatus())
+//                .videoStatus(video.getVideoStatus())
                 .thumbnailUrl(video.getThumbnailUrl())
                 .likeCount(video.getLikes().get())
                 .dislikeCount(video.getDislikes().get())

@@ -37,6 +37,12 @@
                         UNSUBSCRIBE
                     </button>
                 </div>
+                <div *ngIf="isAuthor">
+                    <button class="subscribe-button" mat-raised-button color="accent"
+                            (click)="deleteVideo()">
+                        DELETE
+                    </button>
+                </div>
             </mat-card-header>
             <div>{{videoDescription}}</div>
             <mat-divider></mat-divider>

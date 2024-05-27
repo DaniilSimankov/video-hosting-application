@@ -18,7 +18,7 @@ export class SaveVideoDetailsComponent implements OnInit {
     saveVideoDetailsForm: FormGroup;
     title: FormControl = new FormControl('');
     description: FormControl = new FormControl('');
-    videoStatus: FormControl = new FormControl('');
+    // videoStatus: FormControl = new FormControl('');
 
     readonly separatorKeysCodes = [ENTER, COMMA] as const;
     selectable = true;
@@ -47,7 +47,7 @@ export class SaveVideoDetailsComponent implements OnInit {
         this.saveVideoDetailsForm = new FormGroup({
             title: this.title,
             description: this.description,
-            videoStatus: this.videoStatus,
+            // videoStatus: this.videoStatus,
         });
     }
 
@@ -102,7 +102,7 @@ export class SaveVideoDetailsComponent implements OnInit {
             "title": this.saveVideoDetailsForm.get('title')?.value,
             "description": this.saveVideoDetailsForm.get('description')?.value,
             "tags": this.tags,
-            "videoStatus": this.saveVideoDetailsForm.get('videoStatus')?.value,
+            // "videoStatus": this.saveVideoDetailsForm.get('videoStatus')?.value,
             "videoUrl": this.videoUrl,
             "thumbnailUrl": this.thumbnailUrl,
             'likeCount': 0,

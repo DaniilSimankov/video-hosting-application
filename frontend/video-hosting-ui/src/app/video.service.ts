@@ -64,4 +64,8 @@ export class VideoService {
     getLikedAllVideos(): Observable<Array<VideoDto>> {
         return this.httpClient.get<Array<VideoDto>>("http://localhost:8080/api/video/liked");
     }
+
+    deleteVideo(videoId: string): Observable<boolean> {
+        return this.httpClient.post<boolean>("http://localhost:8080/api/video/" + videoId + "/delete", null);
+    }
 }

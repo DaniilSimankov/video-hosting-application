@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 public class CommentDto {
 
+    private String id;
     private String commentText;
     private String email;
     private String nickname;
@@ -22,6 +23,8 @@ public class CommentDto {
 
     public static CommentDto from(Comment comment){
         return  CommentDto.builder()
+                // todo добавить айдишник коммента для удаления
+                .id(comment.getId())
                 .email(comment.getEmail())
                 .commentText(comment.getText())
                 .nickname(comment.getNickname())

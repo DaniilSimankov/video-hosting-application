@@ -292,9 +292,14 @@ public class VideoServiceImpl implements VideoService {
 
         boolean isDeleted = false;
 
-        if(video.getUserId().equals(currentUser.getUserId())){
+        if (video.getUserId().equals(currentUser.getUserId())) {
+            String keyVideo = getKey(video.getVideoUrl());
+            String keyThumbnail = getKey(video.getThumbnailUrl());
+            log.info("Delete video with key = " + keyVideo);
+            isDeleted = s3Service.deleteFile(keyVideo);
+            log.info("Delete thumbnail with key = " + keyThumbnail);
+            s3Service.deleteFile(keyThumbnail);
             videoRepository.delete(video);
-            isDeleted = true;
         }
 
         return isDeleted;
@@ -311,5 +316,9 @@ public class VideoServiceImpl implements VideoService {
     private void increaseVideoCount(Video videoById) {
         videoById.incrementViewCount();
         videoRepository.save(videoById);
+    }
+
+    private static String getKey(String url) {
+        return url.split("/")[url.split("/").length - 1];
     }
 }

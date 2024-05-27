@@ -1,8 +1,10 @@
 package ru.simankovd.videoservice.service.impl;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +51,29 @@ public class S3Service implements FileService {
         log.info("Uploaded!");
 
         return awsS3Client.getUrl(BUCKET_NAME, key).toString();
+    }
+
+    @Override
+    public boolean deleteFile(String file){
+        log.info("Deleting file to AWS S3...");
+
+        //Upload file to AWS S3
+        try{
+            awsS3Client.deleteObject(new DeleteObjectRequest(BUCKET_NAME, file));
+        } catch (AmazonServiceException e) {
+            // The call was transmitted successfully, but Amazon S3 couldn't process
+            // it, so it returned an error response.
+            e.printStackTrace();
+            return false;
+        } catch (SdkClientException e) {
+            // Amazon S3 couldn't be contacted for a response, or the client
+            // couldn't parse the response from Amazon S3.
+            e.printStackTrace();
+            return false;
+        }
+        log.info("Deleted!");
+
+        return true;
     }
 
 }

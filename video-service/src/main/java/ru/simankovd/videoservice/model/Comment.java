@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import ru.simankovd.videoservice.dto.CommentDto;
 
+import java.util.UUID;
+
 import static ru.simankovd.videoservice.utils.DateUtil.getCurrentDateCommentFormat;
 
 @Data
@@ -26,6 +28,7 @@ public class Comment {
 
     public static Comment from(CommentDto dto) {
         return Comment.builder()
+                .id(UUID.randomUUID().toString())
                 .text(dto.getCommentText())
                 .nickname(dto.getNickname())
                 .email(dto.getEmail())

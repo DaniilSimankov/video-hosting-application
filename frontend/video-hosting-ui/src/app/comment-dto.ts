@@ -4,4 +4,5 @@ export interface CommentDto {
     email: string;
     nickname: string;
     date: string;
+    isAuthor: boolean;
 }

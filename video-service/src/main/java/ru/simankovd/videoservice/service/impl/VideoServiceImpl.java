@@ -221,7 +221,14 @@ public class VideoServiceImpl implements VideoService {
     public List<CommentDto> getAllComments(String videoId) {
         Video videoById = getVideoById(videoId);
 
-        return CommentDto.from(videoById.getCommentList());
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
+        List<CommentDto> commentsDto = CommentDto.from(videoById.getCommentList());
+        // If video owner or comment owner
+        commentsDto.forEach(comment -> comment.setIsAuthor(comment.getEmail().equals(currentUser.getEmailAddress()) ||
+                videoById.getUserId().equals(currentUser.getUserId())));
+
+        return commentsDto;
     }
 
     @Override
@@ -279,7 +286,16 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<CommentDto> deleteComment(String videoId, String commentId) {
-        return null;
+        Video videoById = getVideoById(videoId);
+
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+
+        videoById.getCommentList().removeIf(comment -> comment.getId().equals(commentId) &&
+                (comment.getEmail().equals(currentUser.getEmailAddress()) ||
+                videoById.getUserId().equals(currentUser.getUserId())));
+        videoRepository.save(videoById);
+
+        return getAllComments(videoId);
     }
 
     @Override

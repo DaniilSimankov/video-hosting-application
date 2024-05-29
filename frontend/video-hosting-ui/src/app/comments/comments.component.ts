@@ -30,7 +30,6 @@ export class CommentsComponent implements OnInit {
         this.getComments();
     }
 
-    // todo authorId
     postComment() {
         const comment = this.commentsForm.get('comment')?.value;
 
@@ -52,6 +51,17 @@ export class CommentsComponent implements OnInit {
     getComments(){
         this.commentsService.getAllComments(this.videoId).subscribe(data => {
             this.commentsDto = data;
+
+            console.log(data);
         });
+    }
+
+    deleteComment(commentId: string) {
+        this.commentsService.deleteComment(this.videoId, commentId).subscribe(data => {
+            this.commentsDto = data;
+
+            console.log(data);
+        });
+
     }
 }

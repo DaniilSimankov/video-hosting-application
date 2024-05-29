@@ -22,7 +22,6 @@
         <module>user-service</module>
         <module>video-service</module>
         <module>frontend</module>
-        <module>comment-service</module>
     </modules>
 
     <properties>

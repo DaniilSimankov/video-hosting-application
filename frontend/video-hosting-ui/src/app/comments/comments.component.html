@@ -26,8 +26,8 @@
                 <p matCardSubtitle>{{comment.date}}</p>
             </mat-card-header>
         </div>
-        <div fxFlex="50%" class="delete-comment" fxFlexAlign="end">
-            <button mat-icon-button>
+        <div fxFlex="50%" class="delete-comment" fxFlexAlign="end" *ngIf="comment.isAuthor">
+            <button mat-icon-button (click)="deleteComment(comment.id)">
                 <mat-icon>delete</mat-icon>
             </button>
 <!--            todo добавить функцию удаления если owner или videoAuthor-->

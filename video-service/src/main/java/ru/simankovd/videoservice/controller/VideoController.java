@@ -153,7 +153,7 @@ public class VideoController {
         return comments;
     }
 
-    @PostMapping("/{videoId}/comment/{commentId}/delete")
+    @GetMapping("/{videoId}/comment/{commentId}/delete")
     @ResponseStatus(HttpStatus.CREATED)
     public List<CommentDto> deleteComment(@PathVariable String videoId, @PathVariable String commentId) {
 
@@ -173,7 +173,7 @@ public class VideoController {
         log.info("End deleting video with Id - {}", videoId);
 
         return isDeleted;
-    } // todo test
+    }
 
 
 }

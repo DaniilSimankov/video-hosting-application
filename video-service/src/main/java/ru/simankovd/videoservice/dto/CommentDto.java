@@ -20,6 +20,7 @@ public class CommentDto {
     private String email;
     private String nickname;
     private String date;
+    private Boolean isAuthor;
 
     public static CommentDto from(Comment comment){
         return  CommentDto.builder()

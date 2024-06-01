@@ -2,6 +2,7 @@ package ru.simankovd.videoservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import ru.simankovd.videoservice.dto.CommentDto;
 import ru.simankovd.videoservice.dto.UploadVideoResponse;
 import ru.simankovd.videoservice.dto.UserDto;
 import ru.simankovd.videoservice.dto.VideoDto;
+import ru.simankovd.videoservice.event.VideoUploadEvent;
 import ru.simankovd.videoservice.model.Comment;
 import ru.simankovd.videoservice.model.Video;
 import ru.simankovd.videoservice.repository.VideoRepository;
@@ -30,6 +32,7 @@ public class VideoServiceImpl implements VideoService {
     private final FileService s3Service;
     private final VideoRepository videoRepository;
     private final UserClient userClient;
+    private final KafkaTemplate<String, VideoUploadEvent> kafkaTemplate;
 
     @Override
     public UploadVideoResponse uploadVideo(MultipartFile multipartFile) {
@@ -45,6 +48,9 @@ public class VideoServiceImpl implements VideoService {
         // Save Video Data to Database
         log.info("save video to MongoDB");
         videoRepository.save(video);
+
+        UserDto currentUser = userClient.getCurrentUser(getBearerToken());
+        kafkaTemplate.send("editVideoTopic", new VideoUploadEvent(currentUser.getEmailAddress(), null, video.getId()));
 
         return new UploadVideoResponse(video.getId(), videoUrl);
     }
@@ -68,6 +74,8 @@ public class VideoServiceImpl implements VideoService {
 
         // Save video to the DB
         videoRepository.save(savedVideo);
+
+        kafkaTemplate.send("viewVideoTopic", new VideoUploadEvent(currentUser.getEmailAddress(), savedVideo.getTitle(), savedVideo.getId()));
 
         return videoDto;
     }
@@ -316,6 +324,8 @@ public class VideoServiceImpl implements VideoService {
             log.info("Delete thumbnail with key = " + keyThumbnail);
             s3Service.deleteFile(keyThumbnail);
             videoRepository.delete(video);
+
+            kafkaTemplate.send("deleteVideoTopic", new VideoUploadEvent(currentUser.getEmailAddress(), video.getTitle(), video.getId()));
         }
 
         return isDeleted;

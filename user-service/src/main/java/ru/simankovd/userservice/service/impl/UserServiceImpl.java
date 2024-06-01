@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import ru.simankovd.userservice.dto.UserDto;
 import ru.simankovd.userservice.dto.UserInfoDto;
+import ru.simankovd.userservice.event.UserRegistrationEvent;
 import ru.simankovd.userservice.model.User;
 import ru.simankovd.userservice.repository.UserRepository;
 import ru.simankovd.userservice.service.UserService;
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private String userInfoEndpoint;
 
     private final UserRepository userRepository;
+
+    private final KafkaTemplate<String, UserRegistrationEvent> kafkaTemplate;
 
     @Override
     public String registerUser(String jwt) {
@@ -71,6 +75,7 @@ public class UserServiceImpl implements UserService {
                     .build();
 
             // todo add kafka to notification service
+            kafkaTemplate.send("registrationTopic", new UserRegistrationEvent(user.getEmailAddress()));
 
             return userRepository.save(user).getId();
         } catch (IOException e) {

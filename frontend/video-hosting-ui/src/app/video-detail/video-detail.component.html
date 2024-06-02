@@ -1,4 +1,6 @@
 <div fxLayout="row">
+    <app-sidebar></app-sidebar>
+
     <div fxFlex="65%" class="video-detail">
         <div fxLayout="column" fxLayoutGap="8px">
             <app-video-player *ngIf="videoAvailable" [videoUrl]="videoUrl"></app-video-player>

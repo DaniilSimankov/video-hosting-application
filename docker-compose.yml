@@ -39,76 +39,62 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
 
-#  ## Eureka Server
-#  discovery-server:
-#    image: simankovd/discovery-service:latest
-#    container_name: discovery-server
-#    ports:
-#      - "8761:8761"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      - zipkin
-#
-#  api-gateway:
-#    image: simankovd/api-gateway:latest
-#    container_name: api-gateway
-#    ports:
-#      - "8181:8080"
-#    expose:
-#      - "8181"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
-#    depends_on:
-#      - zipkin
-#      - discovery-server
-#
-#  ## Product-Service Docker Compose Config
-#  product-service:
-#    container_name: product-service
-#    image: simankovd/product-service:latest
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      - mongo
-#      - discovery-server
-#      - api-gateway
-#
-#  ## Order-Service Docker Compose Config
-#  order-service:
-#    container_name: order-service
-#    image: simankovd/order-service:latest
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-order:5431/order-service
-#    depends_on:
-#      - postgres-order
-#      - broker
-#      - zipkin
-#      - discovery-server
-#      - api-gateway
-#
-#  ## Inventory-Service Docker Compose Config
-#  inventory-service:
-#    container_name: inventory-service
-#    image: simankovd/inventory-service:latest
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-inventory:5432/inventory-service
-#    depends_on:
-#      - postgres-inventory
-#      - discovery-server
-#      - api-gateway
-#
-#  ## Notification-Service Docker Compose Config
-#  notification-service:
-#    container_name: notification-service
-#    image: simankovd/notification-service:latest
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      - zipkin
-#      - broker
-#      - discovery-server
-#      - api-gateway
+  ## Eureka Server
+  discovery-server:
+    image: simankovd/discovery-service:latest
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  api-gateway:
+    image: simankovd/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8181:8080"
+    expose:
+      - "8181"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+    depends_on:
+      - discovery-server
+
+  ## notification-Service Docker Compose Config
+  notification-service:
+    container_name: notification-service
+    image: simankovd/notification-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongo
+      - broker
+      - discovery-server
+      - api-gateway
+
+  ## user-Service Docker Compose Config
+  user-service:
+    container_name: user-service
+    image: simankovd/user-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user:5431/user-service
+    depends_on:
+      - mongo
+      - broker
+      - discovery-server
+      - api-gateway
+
+  ## video-Service Docker Compose Config
+  video-service:
+    container_name: video-service
+    image: simankovd/video-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-video:5432/video-service
+    depends_on:
+      - mongo
+      - broker
+      - discovery-server
+      - api-gateway
